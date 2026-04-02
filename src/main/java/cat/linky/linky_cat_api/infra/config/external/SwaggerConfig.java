@@ -1,4 +1,4 @@
-package cat.linky.linky_cat_api.infra.config;
+package cat.linky.linky_cat_api.infra.config.external;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

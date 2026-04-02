@@ -1,4 +1,4 @@
-package cat.linky.linky_cat_api.infra.config;
+package cat.linky.linky_cat_api.infra.config.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
 import cat.linky.linky_cat_api.core.service.profile.ProfileFetchByUsernameService;
 
 @Configuration
-public class ProfileBeanConfig {
+public class ProfileServiceConfig {
     
     @Bean
     public ProfileFetchByUsernameService profileFetchByUsernameService(

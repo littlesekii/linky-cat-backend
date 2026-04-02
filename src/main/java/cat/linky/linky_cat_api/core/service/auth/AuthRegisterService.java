@@ -13,18 +13,22 @@ import cat.linky.linky_cat_api.core.ports.in.dto.user.UserResult;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthRegisterUseCase;
 import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
+import cat.linky.linky_cat_api.core.ports.out.security.PasswordEncoderPort;
 
 public class AuthRegisterService implements AuthRegisterUseCase {
 
     private final UserRepositoryPort repositoryPort;
     private final ProfileRepositoryPort profileRepositoryPort;
+    private final PasswordEncoderPort passwordEncoderPort;
 
     public AuthRegisterService(
         UserRepositoryPort repositoryPort, 
-        ProfileRepositoryPort profileRepositoryPort
+        ProfileRepositoryPort profileRepositoryPort,
+        PasswordEncoderPort passwordEncoderPort
     ) {
         this.repositoryPort = repositoryPort;
         this.profileRepositoryPort = profileRepositoryPort;
+        this.passwordEncoderPort = passwordEncoderPort;
     }
 
     @Override
@@ -41,7 +45,9 @@ public class AuthRegisterService implements AuthRegisterUseCase {
         if (!command.password().equals(command.passwordConfirmation()))
             throw new InvalidArgumentException("passwords does not match");
 
-        User newUser = new User(command.username(), command.email(), command.password());
+        String encodedPassword = passwordEncoderPort.encode(command.password());
+
+        User newUser = new User(command.username(), command.email(), encodedPassword);
         newUser = repositoryPort.save(newUser);
         
         Profile newProfile = new Profile(newUser.getId(), command.displayName(), command.bio());

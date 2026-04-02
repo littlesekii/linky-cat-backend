@@ -1,4 +1,4 @@
-package cat.linky.linky_cat_api.infra.config;
+package cat.linky.linky_cat_api.infra.config.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import jakarta.transaction.Transactional;
 
 @Configuration
 @EnableTransactionManagement
-public class LinkBeanConfiguration {
+public class LinkServiceConfig {
     
     @Bean
     @Transactional
