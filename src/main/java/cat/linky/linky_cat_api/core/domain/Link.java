@@ -7,6 +7,7 @@ import cat.linky.linky_cat_api.core.exception.InvalidArgumentException;
 public class Link {
 
     private UUID id;
+    private UUID profileId;
 
     private String title;
     private String url;
@@ -17,9 +18,10 @@ public class Link {
     private Boolean isActive;
 
     public Link() {}
-    public Link(UUID id, String title, String url, Integer sortOrder, Long clickCount, 
+    public Link(UUID id, UUID profileId, String title, String url, Integer sortOrder, Long clickCount, 
             Boolean isActive) {
         this.id = id;
+        this.profileId = profileId;
         this.title = title;
         this.url = url;
         this.sortOrder = sortOrder;
@@ -27,8 +29,9 @@ public class Link {
         this.isActive = isActive;
         validate();
     }
-    public Link(String title, String url, Integer sortOrder, Boolean isActive) {
+    public Link(UUID profileId, String title, String url, Integer sortOrder, Boolean isActive) {
         this.id = null;
+        this.profileId = profileId;
         this.title = title;
         this.url = url;
         this.sortOrder = sortOrder;
@@ -41,6 +44,10 @@ public class Link {
         return id;
     }
 
+    public UUID getProfileId() {
+        return profileId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -49,7 +56,7 @@ public class Link {
         return url;
     }
 
-    public Integer getsortOrder() {
+    public Integer getSortOrder() {
         return sortOrder;
     }
 
@@ -59,6 +66,62 @@ public class Link {
 
     public Boolean getIsActive() {
         return isActive;
+    }
+
+    public void updateTitle(String title) {
+        if (title != null) {
+            if (title.isEmpty())
+                throw new InvalidArgumentException("title cannot be blank");
+            
+            this.title = title;
+        }
+    }
+
+    public void updateUrl(String url) {
+        if (url != null) {
+            if (url.isEmpty())
+                throw new InvalidArgumentException("url cannot be blank");
+            
+            this.url = url;
+        }
+    }
+
+    public void updateSortOrder(Integer sortOrder) {
+        if (sortOrder != null) {
+            if (sortOrder < 0)
+                throw new InvalidArgumentException("sortOrder cannot be less than 0");
+            
+            this.sortOrder = sortOrder;
+        }
+    }
+    
+    public void updateIsActive(Boolean isActive) {
+        if (isActive != null) {
+            this.isActive = isActive;
+        }
+    }
+
+    public void validate() {
+        if (profileId == null)
+            throw new InvalidArgumentException("profileId cannot be null");
+
+        if (title == null || title.isEmpty())
+            throw new InvalidArgumentException("title cannot be blank");
+        
+        if (url == null || url.isEmpty())
+            throw new InvalidArgumentException("url cannot be blank");
+        
+        if (sortOrder  == null)
+            throw new InvalidArgumentException("sortOrder cannot be null");
+
+        if (sortOrder < 0)
+            throw new InvalidArgumentException("sortOrder cannot be less than 0");
+        
+        if (clickCount < 0L)
+            throw new InvalidArgumentException("clickCount cannot be less than 0");
+        
+        if (isActive == null)
+            throw new InvalidArgumentException("isActive cannot be null");
     }
 
     @Override
@@ -84,32 +147,5 @@ public class Link {
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    public void update(Link link) {
-        title = link.getTitle();
-        url = link.getUrl();
-        sortOrder = link.getsortOrder();
-        isActive = link.getIsActive();
-    }
-
-    public void validate() {
-        if (title == null || title.isEmpty())
-            throw new InvalidArgumentException("title cannot be blank");
-        
-        if (url == null || url.isEmpty())
-            throw new InvalidArgumentException("url cannot be blank");
-        
-        if (sortOrder  == null)
-            throw new InvalidArgumentException("sortOrder cannot be null");
-
-        if (sortOrder < 0)
-            throw new InvalidArgumentException("sortOrder cannot be less than 0");
-        
-        if (clickCount < 0L)
-            throw new InvalidArgumentException("clickCount cannot be less than 0");
-        
-        if (isActive == null)
-            throw new InvalidArgumentException("isActive cannot be null");
     }
 }

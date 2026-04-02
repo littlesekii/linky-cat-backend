@@ -4,7 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
+import cat.linky.linky_cat_api.core.ports.out.repository.LinkRepositoryPort;
+import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.service.link.LinkCreateService;
 import cat.linky.linky_cat_api.core.service.link.LinkDeleteService;
 import cat.linky.linky_cat_api.core.service.link.LinkUpdateService;
@@ -16,19 +17,22 @@ public class LinkBeanConfiguration {
     
     @Bean
     @Transactional
-    public LinkCreateService linkCreateService(UserRepositoryPort userRepositoryPort) {
-        return new LinkCreateService(userRepositoryPort);
+    public LinkCreateService linkCreateService(
+        ProfileRepositoryPort profileRepositoryPort,
+        LinkRepositoryPort repositoryPort
+    ) {
+        return new LinkCreateService(profileRepositoryPort, repositoryPort);
     }
 
     @Bean
     @Transactional
-    public LinkUpdateService linkUpdateService(UserRepositoryPort userRepositoryPort) {
-        return new LinkUpdateService(userRepositoryPort);
+    public LinkUpdateService linkUpdateService(LinkRepositoryPort repositoryPort) {
+        return new LinkUpdateService(repositoryPort);
     }
 
     @Bean
     @Transactional
-    public LinkDeleteService linkDeleteService(UserRepositoryPort userRepositoryPort) {
-        return new LinkDeleteService(userRepositoryPort);
+    public LinkDeleteService linkDeleteService(LinkRepositoryPort repositoryPort) {
+        return new LinkDeleteService(repositoryPort);
     }
 }

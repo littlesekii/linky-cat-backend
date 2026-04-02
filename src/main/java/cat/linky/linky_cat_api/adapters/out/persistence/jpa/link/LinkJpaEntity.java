@@ -2,17 +2,12 @@ package cat.linky.linky_cat_api.adapters.out.persistence.jpa.link;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import cat.linky.linky_cat_api.adapters.out.persistence.jpa.user.UserJpaEntity;
 import cat.linky.linky_cat_api.core.domain.Link;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +18,9 @@ public class LinkJpaEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "profileId", nullable = false)
+    private UUID profileId;
+
     private String title;
     private String url;
 
@@ -31,33 +29,24 @@ public class LinkJpaEntity {
 
     private Boolean isActive;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserJpaEntity user;
-
     public LinkJpaEntity() {}    
-    public LinkJpaEntity(UUID id, String title, String url, Integer sortOrder, Long clickCount, Boolean isActive,
-            UserJpaEntity user) {
+    public LinkJpaEntity(UUID id, UUID profileId, String title, String url, Integer sortOrder, Long clickCount, 
+            Boolean isActive) {
         this.id = id;
+        this.profileId = profileId;
         this.title = title;
         this.url = url;
         this.sortOrder = sortOrder;
         this.clickCount = clickCount;
         this.isActive = isActive;
-        this.user = user;
-    }
-    public LinkJpaEntity(String title, String url, Integer sortOrder, Long clickCount, Boolean isActive) {
-        this.id = null;
-        this.title = title;
-        this.url = url;
-        this.sortOrder = sortOrder;
-        this.clickCount = 0L;
-        this.isActive = isActive;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getProfileId() {
+        return profileId;
     }
 
     public String getTitle() {
@@ -80,12 +69,10 @@ public class LinkJpaEntity {
         return isActive;
     }
 
-    public UserJpaEntity getUser() {
-        return user;
-    }
-
     public Link toDomain() {
-        return new Link(id,
+        return new Link(
+            id,
+            profileId,
             title,
             url,
             sortOrder,
@@ -94,15 +81,15 @@ public class LinkJpaEntity {
         );
     }
 
-    public static LinkJpaEntity fromDomain(Link link, UserJpaEntity userEntity) {
+    public static LinkJpaEntity fromDomain(Link link) {
         return new LinkJpaEntity(
             link.getId(),
+            link.getProfileId(),
             link.getTitle(),
             link.getUrl(),
-            link.getsortOrder(),
+            link.getSortOrder(),
             link.getClickCount(),
-            link.getIsActive(),
-            userEntity
+            link.getIsActive()
         );
     }    
 }

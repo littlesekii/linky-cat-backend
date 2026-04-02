@@ -2,9 +2,9 @@ package cat.linky.linky_cat_api.core.ports.in.usecase.link;
 
 import java.util.UUID;
 
-import cat.linky.linky_cat_api.core.domain.Link;
-import cat.linky.linky_cat_api.core.domain.User;
+import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkResult;
+import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkUpdateCommand;
 
 public interface LinkUpdateUseCase {
-    public User execute(UUID userId, UUID id, Link link);
+    public LinkResult execute(UUID id, LinkUpdateCommand command);
 }
