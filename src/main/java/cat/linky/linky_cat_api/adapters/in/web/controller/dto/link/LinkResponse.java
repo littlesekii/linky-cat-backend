@@ -2,8 +2,11 @@ package cat.linky.linky_cat_api.adapters.in.web.controller.dto.link;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkResult;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record LinkResponse(
     UUID id,
     String title,

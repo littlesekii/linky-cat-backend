@@ -43,20 +43,20 @@ public class ProfileFetchByUsernameService implements ProfileFetchByUsernameUseC
 
         List<LinkResult> linkResultList = existingLinks.stream()
             .map((link) -> new LinkResult(
-                link.getId(), 
+                null, 
                 link.getTitle(),
                 link.getUrl(),
                 link.getSortOrder(),
-                link.getClickCount(),
+                null,
                 link.getIsActive()
             ))
             .toList();
 
         ProfileResult result = new ProfileResult(
-            existingProfile.getId(),
+            null,
             existingProfile.getDisplayName(), 
             existingProfile.getBio(), 
-            existingProfile.getProfileViews(),
+            null,
             linkResultList
         );
 

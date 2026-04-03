@@ -34,11 +34,11 @@ public class LinkUpdateService implements LinkUpdateUseCase {
         existingLink = repositoryPort.save(existingLink);
 
         LinkResult result = new LinkResult(
-            existingLink.getId(), 
+            null, 
             existingLink.getTitle(), 
             existingLink.getUrl(), 
             existingLink.getSortOrder(), 
-            existingLink.getClickCount(), 
+            null, 
             existingLink.getIsActive()
         );
 
