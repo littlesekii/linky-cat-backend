@@ -3,6 +3,7 @@ package cat.linky.linky_cat_api.core.service.link;
 import java.util.UUID;
 
 import cat.linky.linky_cat_api.core.domain.Link;
+import cat.linky.linky_cat_api.core.exception.UnauthorizedOperationException;
 import cat.linky.linky_cat_api.core.exception.notFound.LinkNotFoundException;
 import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkResult;
 import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkUpdateCommand;
@@ -18,7 +19,9 @@ public class LinkUpdateService implements LinkUpdateUseCase {
     }
 
     @Override
-    public LinkResult execute(UUID id, LinkUpdateCommand command) {
+    public LinkResult execute(UUID id, LinkUpdateCommand command, UUID userId) {
+        if (!repositoryPort.checkOwnership(id, userId))
+            throw new UnauthorizedOperationException();
 
         Link existingLink = repositoryPort.findById(id)
             .orElseThrow(() -> new LinkNotFoundException());

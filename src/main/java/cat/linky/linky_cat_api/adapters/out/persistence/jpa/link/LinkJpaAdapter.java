@@ -42,4 +42,9 @@ public class LinkJpaAdapter implements LinkRepositoryPort {
     public void deleteById(UUID id) {
        repository.deleteById(id);
     }
+
+    @Override
+    public boolean checkOwnership(UUID id, UUID userId) {
+        return repository.checkOwnership(id, userId);
+    }
 }

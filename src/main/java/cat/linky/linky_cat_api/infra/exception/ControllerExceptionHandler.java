@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.ExceptionResponse;
 import cat.linky.linky_cat_api.core.exception.IntegrityViolationException;
 import cat.linky.linky_cat_api.core.exception.InvalidArgumentException;
+import cat.linky.linky_cat_api.core.exception.InvalidCredentialsException;
+import cat.linky.linky_cat_api.core.exception.UnauthorizedOperationException;
 import cat.linky.linky_cat_api.core.exception.notFound.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -50,6 +52,34 @@ public class ControllerExceptionHandler {
             Instant.now(),
             HttpStatus.NOT_FOUND.value(),
             "Resource not found",
+            e.errorCode(),
+            e.getMessage(),
+            request.getRequestURI()
+        ); 
+
+        return ResponseEntity.badRequest().body(res);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ExceptionResponse> invalidCredentials(InvalidCredentialsException e, HttpServletRequest request) {
+        ExceptionResponse res = new ExceptionResponse(
+            Instant.now(),
+            HttpStatus.BAD_REQUEST.value(),
+            "Invalid credentials",
+            e.errorCode(),
+            e.getMessage(),
+            request.getRequestURI()
+        ); 
+
+        return ResponseEntity.badRequest().body(res);
+    }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<ExceptionResponse> unauthorizedOperation(UnauthorizedOperationException e, HttpServletRequest request) {
+        ExceptionResponse res = new ExceptionResponse(
+            Instant.now(),
+            HttpStatus.UNAUTHORIZED.value(),
+            "Unauthorized operation",
             e.errorCode(),
             e.getMessage(),
             request.getRequestURI()

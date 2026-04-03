@@ -1,6 +1,7 @@
 package cat.linky.linky_cat_api.adapters.out.persistence.jpa.user;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,12 @@ public class UserJpaAdapter implements UserRepositoryPort {
     
     public UserJpaAdapter(UserJpaRepository repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        Optional<UserJpaEntity> entity = repository.findById(id);
+        return entity.map(UserJpaEntity::toDomain);
     }
 
     @Override

@@ -17,16 +17,16 @@ import cat.linky.linky_cat_api.core.ports.out.security.PasswordEncoderPort;
 
 public class AuthRegisterService implements AuthRegisterUseCase {
 
-    private final UserRepositoryPort repositoryPort;
+    private final UserRepositoryPort userRepositoryPort;
     private final ProfileRepositoryPort profileRepositoryPort;
     private final PasswordEncoderPort passwordEncoderPort;
 
     public AuthRegisterService(
-        UserRepositoryPort repositoryPort, 
+        UserRepositoryPort userRepositoryPort, 
         ProfileRepositoryPort profileRepositoryPort,
         PasswordEncoderPort passwordEncoderPort
     ) {
-        this.repositoryPort = repositoryPort;
+        this.userRepositoryPort = userRepositoryPort;
         this.profileRepositoryPort = profileRepositoryPort;
         this.passwordEncoderPort = passwordEncoderPort;
     }
@@ -34,11 +34,11 @@ public class AuthRegisterService implements AuthRegisterUseCase {
     @Override
     public AuthRegisterResult execute(AuthRegisterCommand command) {
 
-        if (repositoryPort.existsByUsername(command.username())) {
+        if (userRepositoryPort.existsByUsername(command.username())) {
             throw new IntegrityViolationException("this username is already taken");
         }
 
-        if (repositoryPort.existsByEmail(command.email())) {
+        if (userRepositoryPort.existsByEmail(command.email())) {
             throw new IntegrityViolationException("this email is already taken");
         }
 
@@ -48,7 +48,7 @@ public class AuthRegisterService implements AuthRegisterUseCase {
         String encodedPassword = passwordEncoderPort.encode(command.password());
 
         User newUser = new User(command.username(), command.email(), encodedPassword);
-        newUser = repositoryPort.save(newUser);
+        newUser = userRepositoryPort.save(newUser);
         
         Profile newProfile = new Profile(newUser.getId(), command.displayName(), command.bio());
         newProfile = profileRepositoryPort.save(newProfile);

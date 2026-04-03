@@ -12,4 +12,6 @@ public interface LinkRepositoryPort {
 
     public Link save(Link link);
     public void deleteById(UUID id);
+
+    public boolean checkOwnership(UUID id, UUID userId);
 }

@@ -7,10 +7,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import cat.linky.linky_cat_api.infra.filter.AuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final AuthenticationFilter authenticationFilter;
+
+    public SecurityConfig(AuthenticationFilter authenticationFilter) {
+        this.authenticationFilter = authenticationFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
@@ -19,8 +28,16 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(options -> options.sameOrigin()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().permitAll()
+                .requestMatchers(
+                    "/api/profiles/{username}",
+                    "/api/auth/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**"
+                ).permitAll()
+                .anyRequest().authenticated()
             )
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }    
 }
