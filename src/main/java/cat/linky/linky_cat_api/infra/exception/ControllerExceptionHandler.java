@@ -29,7 +29,7 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         ); 
 
-        return ResponseEntity.badRequest().body(res);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
     @ExceptionHandler(IntegrityViolationException.class)
@@ -43,7 +43,7 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         ); 
 
-        return ResponseEntity.badRequest().body(res);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -57,7 +57,7 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         ); 
 
-        return ResponseEntity.badRequest().body(res);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
@@ -71,7 +71,7 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         ); 
 
-        return ResponseEntity.badRequest().body(res);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
     @ExceptionHandler(UnauthorizedOperationException.class)
@@ -85,6 +85,6 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         ); 
 
-        return ResponseEntity.badRequest().body(res);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
     }
 }

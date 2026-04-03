@@ -52,7 +52,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             SecurityContextHolder.clearContext();
         }
 
