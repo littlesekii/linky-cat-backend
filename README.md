@@ -1,6 +1,6 @@
 # Linky Cat API
 
-REST API backend for Linky Cat - a personalized link aggregation platform.
+REST API backend for Linky Cat - a personalized link aggregator platform.
 
 ## Tech Stack
 
@@ -77,6 +77,7 @@ Swagger UI: `http://localhost:1001/swagger-ui.html`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login and get JWT token |
 
 ### Profiles
 
@@ -109,12 +110,23 @@ curl -X POST http://localhost:1001/api/auth/register \
   }'
 ```
 
+### Login
+
+```bash
+curl -X POST http://localhost:1001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "linkycat",
+    "password": "secure123"
+  }'
+```
+
 ### Create link
 
 ```bash
 curl -X POST http://localhost:1001/api/links \
   -H "Content-Type: application/json" \
-  -H "X-User-Id: {user-uuid}" \
+  -H "Authorization: Bearer {jwt-token}" \
   -d '{
     "title": "GitHub",
     "url": "https://github.com/littlesekii",
@@ -137,3 +149,6 @@ curl http://localhost:1001/api/profiles/linkycat
 | `SPRING_DATASOURCE_URL` | jdbc:postgresql://localhost:3001/linkycat | Database URL |
 | `SPRING_DATASOURCE_USERNAME` | lcuser | Database user |
 | `SPRING_DATASOURCE_PASSWORD` | 123 | Database password |
+| `JWT_SECRET` | (required) | Secret key for JWT signing (min 32 chars) |
+| `JWT_EXPIRATION` | 1800 | Token expiration time in seconds |
+| `JWT_ISSUER` | linky_cat_api | Token issuer |
