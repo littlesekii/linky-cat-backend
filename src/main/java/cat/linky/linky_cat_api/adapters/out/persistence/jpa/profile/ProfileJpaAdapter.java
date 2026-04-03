@@ -35,5 +35,9 @@ public class ProfileJpaAdapter implements ProfileRepositoryPort {
         ProfileJpaEntity saved = repository.save(entity);
         return saved.toDomain();
     }
-    
+
+    @Override
+    public boolean checkOwnership(UUID id, UUID userId) {
+        return repository.checkOwnership(id, userId);
+    }
 }

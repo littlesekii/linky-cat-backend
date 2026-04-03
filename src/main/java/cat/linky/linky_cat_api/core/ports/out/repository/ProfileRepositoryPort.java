@@ -10,4 +10,5 @@ public interface ProfileRepositoryPort {
     public Optional<Profile> findByUserId(UUID userId);
 
     public Profile save(Profile profile);
+    public boolean checkOwnership(UUID id, UUID userId);
 }
