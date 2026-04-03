@@ -25,24 +25,24 @@ src/main/java/cat/linky/linky_cat_api/
 │   │   ├── AuthController.java
 │   │   ├── LinkController.java
 │   │   └── ProfileController.java
-│   └── out/persistence/jpa/       # JPA Adapters
+│   └── out/persistence/jpa/        # JPA Adapters
 │       ├── link/
 │       ├── profile/
 │       └── user/
 ├── core/
-│   ├── domain/                    # Domain entities
+│   ├── domain/                     # Domain entities
 │   │   ├── Link.java
 │   │   ├── Profile.java
 │   │   └── User.java
-│   ├── exception/                 # Domain exceptions
+│   ├── exception/                  # Domain exceptions
 │   ├── ports/
-│   │   ├── in/usecase/            # Input use cases
-│   │   ├── in/dto/                # Internal DTOs (Commands/Results)
-│   │   └── out/repository/        # Output ports (Repositories)
-│   └── service/                   # Service implementations
+│   │   ├── in/usecase/             # Input use cases
+│   │   ├── in/dto/                 # Internal DTOs (Commands/Results)
+│   │   └── out/repository/         # Output ports (Repositories)
+│   └── service/                    # Service implementations
 ├── infra/
-│   ├── config/                    # Configuration (Beans, Security, Swagger)
-│   └── exception/                 # Global Exception Handler
+│   ├── config/                     # Configuration (Beans, Security, Swagger)
+│   └── exception/                  # Global Exception Handler
 └── LinkyCatApiApplication.java
 ```
 
@@ -84,6 +84,7 @@ Swagger UI: `http://localhost:1001/swagger-ui.html`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/profiles/{username}` | Get public profile |
+| PATCH | `/api/profiles/{id}` | Update profile (auth) |
 
 ### Links
 
@@ -132,6 +133,18 @@ curl -X POST http://localhost:1001/api/links \
     "url": "https://github.com/littlesekii",
     "sortOrder": 1,
     "isActive": true
+  }'
+```
+
+### Update profile
+
+```bash
+curl -X PATCH http://localhost:1001/api/profiles/{id} \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {jwt-token}" \
+  -d '{
+    "displayName": "Linky Cat Updated",
+    "bio": "New bio here"
   }'
 ```
 
