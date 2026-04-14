@@ -11,6 +11,7 @@ import cat.linky.linky_cat_api.adapters.in.web.controller.dto.ExceptionResponse;
 import cat.linky.linky_cat_api.core.exception.IntegrityViolationException;
 import cat.linky.linky_cat_api.core.exception.InvalidArgumentException;
 import cat.linky.linky_cat_api.core.exception.InvalidCredentialsException;
+import cat.linky.linky_cat_api.core.exception.TooManyRequestsException;
 import cat.linky.linky_cat_api.core.exception.UnauthorizedOperationException;
 import cat.linky.linky_cat_api.core.exception.notFound.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,5 +87,19 @@ public class ControllerExceptionHandler {
         ); 
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+    }
+
+    @ExceptionHandler(TooManyRequestsException.class)
+    public ResponseEntity<ExceptionResponse> tooManyRequests(TooManyRequestsException e, HttpServletRequest request) {
+        ExceptionResponse res = new ExceptionResponse(
+            Instant.now(),
+            HttpStatus.TOO_MANY_REQUESTS.value(),
+            "Too many requests",
+            e.errorCode(),
+            e.getMessage(),
+            request.getRequestURI()
+        ); 
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(res);
     }
 }
