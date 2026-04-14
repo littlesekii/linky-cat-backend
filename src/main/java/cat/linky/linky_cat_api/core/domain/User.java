@@ -50,6 +50,25 @@ public class User {
         
         if (email == null || email.isEmpty())
             throw new InvalidArgumentException("email cannot be blank");
+
+        validateUsername(username);
+    }
+
+    public static void validateUsername(String username) {
+         if (username.length() > 32) 
+            throw new InvalidArgumentException("username length cannot be over 32 characters");
+
+        if (username.matches(".*[^A-Za-z0-9._].*"))
+            throw new InvalidArgumentException("username can only contain letters (A-Z, a-z), numbers, underscores, and periods");
+
+        if (!username.matches(".*[A-Za-z0-9].*"))
+            throw new InvalidArgumentException("username must contain at least one letter (A-Z, a-z) or number");
+
+        if (username.contains(".."))
+            throw new InvalidArgumentException("username cannot contain more than one period in a row");
+
+        if (username.startsWith(".") || username.endsWith("."))
+            throw new InvalidArgumentException("username cannot start or end with a period");
     }
 
     @Override

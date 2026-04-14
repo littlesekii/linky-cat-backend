@@ -13,8 +13,13 @@ import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthLoginRequ
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthLoginResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthRegisterRequest;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthRegisterResponse;
+import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthCheckEmailUseCase;
+import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthCheckUsernameUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthLoginUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthRegisterUseCase;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,13 +27,20 @@ public class AuthController {
 
     private final AuthRegisterUseCase authRegisterUseCase;
     private final AuthLoginUseCase authLoginUseCase;
+
+    private final AuthCheckEmailUseCase authCheckEmailUseCase;
+    private final AuthCheckUsernameUseCase authCheckUsernameUseCase;
     
     public AuthController(
         AuthRegisterUseCase authRegisterUseCase,
-        AuthLoginUseCase authLoginUseCase
+        AuthLoginUseCase authLoginUseCase, 
+        AuthCheckEmailUseCase authCheckEmailUseCase, 
+        AuthCheckUsernameUseCase authCheckUsernameUseCase
     ) {
         this.authRegisterUseCase = authRegisterUseCase;
         this.authLoginUseCase = authLoginUseCase;
+        this.authCheckEmailUseCase = authCheckEmailUseCase;
+        this.authCheckUsernameUseCase = authCheckUsernameUseCase;
     }
 
     @PostMapping("/register")
@@ -53,4 +65,16 @@ public class AuthController {
 
         return ResponseEntity.ok().body(res);
     }
+    
+    @GetMapping("/check-email")
+    public ResponseEntity<Void> checkEmail(@RequestParam String email) {
+        authCheckEmailUseCase.execute(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/check-username")
+    public ResponseEntity<Void> checkUsername(@RequestParam String username) {
+        authCheckUsernameUseCase.execute(username);
+        return ResponseEntity.ok().build();
+    }  
 }

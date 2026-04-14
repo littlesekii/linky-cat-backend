@@ -8,6 +8,8 @@ import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.security.AccessTokenPort;
 import cat.linky.linky_cat_api.core.ports.out.security.PasswordEncoderPort;
+import cat.linky.linky_cat_api.core.service.auth.AuthCheckEmailService;
+import cat.linky.linky_cat_api.core.service.auth.AuthCheckUsernameService;
 import cat.linky.linky_cat_api.core.service.auth.AuthLoginService;
 import cat.linky.linky_cat_api.core.service.auth.AuthRegisterService;
 import jakarta.transaction.Transactional;
@@ -33,5 +35,19 @@ public class AuthServiceConfig {
         PasswordEncoderPort passwordEncoderPort
     ) {
         return new AuthLoginService(userRepositoryPort, accessTokenPort, passwordEncoderPort);
+    }
+
+    @Bean
+    public AuthCheckEmailService authCheckEmailService(
+        UserRepositoryPort userRepositoryPort
+    ) {
+        return new AuthCheckEmailService(userRepositoryPort);
+    }
+
+    @Bean
+    public AuthCheckUsernameService authCheckUsernameService(
+        UserRepositoryPort userRepositoryPort
+    ) {
+        return new AuthCheckUsernameService(userRepositoryPort);
     }
 }
