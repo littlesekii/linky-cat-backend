@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
@@ -13,6 +14,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import cat.linky.linky_cat_api.core.ports.out.security.AccessTokenPort;
 
+@Component
 public class JwtAdapter implements AccessTokenPort {
     
     private final String secret;
