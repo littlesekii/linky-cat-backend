@@ -78,6 +78,8 @@ Swagger UI: `http://localhost:1001/swagger-ui.html`
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register new user |
 | POST | `/api/auth/login` | Login and get JWT token |
+| GET | `/api/auth/check-email` | Check if email is valid (early check) |
+| GET | `/api/auth/check-username` | Check if username is valid (early check) |
 
 ### Profiles
 
@@ -159,9 +161,13 @@ curl http://localhost:1001/api/profiles/linkycat
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SERVER_PORT` | 1001 | Application port |
-| `SPRING_DATASOURCE_URL` | jdbc:postgresql://localhost:3001/linkycat | Database URL |
-| `SPRING_DATASOURCE_USERNAME` | lcuser | Database user |
-| `SPRING_DATASOURCE_PASSWORD` | 123 | Database password |
+| `DATABASE_URL` | jdbc:postgresql://localhost:3001/linkycat | PostgreSQL connection URL |
+| `DATABASE_USER` | lcuser | Database user |
+| `DATABASE_PASSWORD` | 123 | Database password |
+| `MAIL_HOST` | (required) | SMTP mail host |
+| `MAIL_PORT` | 587 | SMTP mail port |
+| `MAIL_USERNAME` | (required) | SMTP mail username |
+| `MAIL_PASSWORD` | (required) | SMTP mail password |
 | `JWT_SECRET` | (required) | Secret key for JWT signing (min 32 chars) |
 | `JWT_EXPIRATION` | 1800 | Token expiration time in seconds |
 | `JWT_ISSUER` | linky_cat_api | Token issuer |
