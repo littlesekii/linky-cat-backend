@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import cat.linky.linky_cat_api.core.ports.out.repository.EmailVerificationRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.security.AccessTokenPort;
@@ -23,9 +24,10 @@ public class AuthServiceConfig {
     public AuthRegisterService authRegisterService(
         UserRepositoryPort userRepositoryPort,
         ProfileRepositoryPort profileRepositoryPort,
+        EmailVerificationRepositoryPort emailVerificationRepositoryPort,
         PasswordEncoderPort passwordEncoderPort
     ) {
-        return new AuthRegisterService(userRepositoryPort, profileRepositoryPort, passwordEncoderPort);
+        return new AuthRegisterService(userRepositoryPort, profileRepositoryPort, emailVerificationRepositoryPort, passwordEncoderPort);
     }
 
     @Bean
