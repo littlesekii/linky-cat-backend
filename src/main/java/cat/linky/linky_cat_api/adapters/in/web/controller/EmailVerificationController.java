@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cat.linky.linky_cat_api.adapters.in.web.controller.dto.StandardResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.email_verification.EmailVerificationSendRequest;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.email_verification.EmailVerificationVerifyRequest;
 import cat.linky.linky_cat_api.core.ports.in.usecase.email_verification.EmailVerificationSendUseCase;
@@ -28,14 +29,14 @@ public class EmailVerificationController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<Void> send(@RequestBody EmailVerificationSendRequest req) {
+    public ResponseEntity<StandardResponse> send(@RequestBody EmailVerificationSendRequest req) {
         emailVerificationSendUseCase.execute(req.toCommand());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(StandardResponse.success());
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<Void> verify(@RequestBody EmailVerificationVerifyRequest req) {
+    public ResponseEntity<StandardResponse> verify(@RequestBody EmailVerificationVerifyRequest req) {
         emailVerificationVerifyUseCase.execute(req.toCommand());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(StandardResponse.success());
     }
 }

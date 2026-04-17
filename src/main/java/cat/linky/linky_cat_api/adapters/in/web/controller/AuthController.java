@@ -3,12 +3,15 @@ package cat.linky.linky_cat_api.adapters.in.web.controller;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import cat.linky.linky_cat_api.adapters.in.web.controller.dto.StandardResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthLoginRequest;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthLoginResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.auth.AuthRegisterRequest;
@@ -17,8 +20,6 @@ import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthCheckEmailUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthCheckUsernameUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthLoginUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthRegisterUseCase;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -67,14 +68,14 @@ public class AuthController {
     }
     
     @GetMapping("/check-email")
-    public ResponseEntity<Void> checkEmail(@RequestParam String email) {
+    public ResponseEntity<StandardResponse> checkEmail(@RequestParam String email) {
         authCheckEmailUseCase.execute(email);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(StandardResponse.success());
     }
 
     @GetMapping("/check-username")
-    public ResponseEntity<Void> checkUsername(@RequestParam String username) {
+    public ResponseEntity<StandardResponse> checkUsername(@RequestParam String username) {
         authCheckUsernameUseCase.execute(username);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(StandardResponse.success());
     }  
 }
