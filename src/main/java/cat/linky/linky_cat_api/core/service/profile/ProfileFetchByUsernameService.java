@@ -5,8 +5,7 @@ import java.util.List;
 import cat.linky.linky_cat_api.core.domain.Link;
 import cat.linky.linky_cat_api.core.domain.Profile;
 import cat.linky.linky_cat_api.core.domain.User;
-import cat.linky.linky_cat_api.core.exception.notFound.ProfileNotFoundException;
-import cat.linky.linky_cat_api.core.exception.notFound.UserNotFoundException;
+import cat.linky.linky_cat_api.core.exception.ResourceNotFoundException;
 import cat.linky.linky_cat_api.core.ports.in.dto.link.LinkResult;
 import cat.linky.linky_cat_api.core.ports.in.dto.profile.ProfileResult;
 import cat.linky.linky_cat_api.core.ports.in.usecase.profile.ProfileFetchByUsernameUseCase;
@@ -34,10 +33,10 @@ public class ProfileFetchByUsernameService implements ProfileFetchByUsernameUseC
     public ProfileResult execute(String username) {
 
         User existingUser = userRepositoryPort.findByUsername(username)
-            .orElseThrow(() -> new UserNotFoundException());
+            .orElseThrow(() -> new ResourceNotFoundException("service.user.not_found"));
 
         Profile existingProfile = repositoryPort.findByUserId(existingUser.getId())
-            .orElseThrow(() -> new ProfileNotFoundException());
+            .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
         List<Link> existingLinks = linkRepositoryPort.findAllByProfileId(existingProfile.getId());
 

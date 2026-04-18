@@ -1,105 +1,132 @@
 package cat.linky.linky_cat_api.infra.exception;
 
 import java.time.Instant;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.ExceptionResponse;
+import cat.linky.linky_cat_api.core.exception.ApplicationException;
 import cat.linky.linky_cat_api.core.exception.IntegrityViolationException;
 import cat.linky.linky_cat_api.core.exception.InvalidArgumentException;
 import cat.linky.linky_cat_api.core.exception.InvalidCredentialsException;
+import cat.linky.linky_cat_api.core.exception.ResourceNotFoundException;
 import cat.linky.linky_cat_api.core.exception.TooManyRequestsException;
 import cat.linky.linky_cat_api.core.exception.UnauthorizedOperationException;
-import cat.linky.linky_cat_api.core.exception.notFound.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    
-    @ExceptionHandler(InvalidArgumentException.class)
-    public ResponseEntity<ExceptionResponse> invalidArgument(InvalidArgumentException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
-            Instant.now(),
-            HttpStatus.BAD_REQUEST.value(),
-            "Invalid argument",
-            e.errorCode(),
-            e.getMessage(),
-            request.getRequestURI()
-        ); 
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+    private final MessageSource messageSource;
+
+    public ControllerExceptionHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    @ExceptionHandler(InvalidArgumentException.class)
+    public ResponseEntity<ExceptionResponse> invalidArgument(InvalidArgumentException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;        
+    
+        ExceptionResponse res = buildResponse(
+            "Invalid argument", 
+            status, 
+            exception, 
+            request
+        );
+
+        return ResponseEntity.status(status).body(res);
     }
 
     @ExceptionHandler(IntegrityViolationException.class)
-    public ResponseEntity<ExceptionResponse> integrityViolation(IntegrityViolationException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
-            Instant.now(),
-            HttpStatus.BAD_REQUEST.value(),
-            "Integrity violation",
-            e.errorCode(),
-            e.getMessage(),
-            request.getRequestURI()
-        ); 
+    public ResponseEntity<ExceptionResponse> integrityViolation(IntegrityViolationException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;        
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        ExceptionResponse res = buildResponse(
+            "Integrity violation", 
+            status, 
+            exception, 
+            request
+        );
+
+        return ResponseEntity.status(status).body(res);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
-            Instant.now(),
-            HttpStatus.NOT_FOUND.value(),
-            "Resource not found",
-            e.errorCode(),
-            e.getMessage(),
-            request.getRequestURI()
-        ); 
+    public ResponseEntity<ExceptionResponse> resourceNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND; 
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+        ExceptionResponse res = buildResponse(
+            "Resource not found", 
+            status, 
+            exception, 
+            request
+        );
+
+        return ResponseEntity.status(status).body(res);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ExceptionResponse> invalidCredentials(InvalidCredentialsException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
-            Instant.now(),
-            HttpStatus.BAD_REQUEST.value(),
-            "Invalid credentials",
-            e.errorCode(),
-            e.getMessage(),
-            request.getRequestURI()
-        ); 
+    public ResponseEntity<ExceptionResponse> invalidCredentials(InvalidCredentialsException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST; 
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        ExceptionResponse res = buildResponse(
+            "Invalid credentials", 
+            status, 
+            exception, 
+            request
+        );
+
+        return ResponseEntity.status(status).body(res);
     }
 
     @ExceptionHandler(UnauthorizedOperationException.class)
-    public ResponseEntity<ExceptionResponse> unauthorizedOperation(UnauthorizedOperationException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
-            Instant.now(),
-            HttpStatus.UNAUTHORIZED.value(),
-            "Unauthorized operation",
-            e.errorCode(),
-            e.getMessage(),
-            request.getRequestURI()
-        ); 
+    public ResponseEntity<ExceptionResponse> unauthorizedOperation(UnauthorizedOperationException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED; 
+        
+        ExceptionResponse res = buildResponse(
+            "Unauthorized operation", status, 
+            exception, 
+            request
+        );
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+        return ResponseEntity.status(status).body(res);
     }
 
     @ExceptionHandler(TooManyRequestsException.class)
-    public ResponseEntity<ExceptionResponse> tooManyRequests(TooManyRequestsException e, HttpServletRequest request) {
-        ExceptionResponse res = new ExceptionResponse(
+    public ResponseEntity<ExceptionResponse> tooManyRequests(TooManyRequestsException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.TOO_MANY_REQUESTS; 
+        
+        ExceptionResponse res = buildResponse(
+            "Too many requests", 
+            status, 
+            exception, 
+            request
+        );
+
+        return ResponseEntity.status(status).body(res);
+    }
+
+    private ExceptionResponse buildResponse(String error, HttpStatus status, ApplicationException exception, HttpServletRequest request) {
+        return new ExceptionResponse(
             Instant.now(),
-            HttpStatus.TOO_MANY_REQUESTS.value(),
-            "Too many requests",
-            e.errorCode(),
-            e.getMessage(),
+            status.value(),
+            error,
+            exception.getCode(),
+            exceptionMessage(exception, request.getLocale()),
             request.getRequestURI()
         ); 
+    }
 
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(res);
+    private String exceptionMessage(ApplicationException exception, Locale locale) {
+        return messageSource.getMessage(
+            exception.getCode(), 
+            exception.getArgs(), 
+            locale
+        );
     }
 }

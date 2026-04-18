@@ -31,10 +31,10 @@ public class AuthLoginService implements AuthLoginUseCase {
     public AuthLoginResult execute(AuthLoginCommand command) {
 
         User existingUser = userRepositoryPort.findByUsername(command.username())
-            .orElseThrow(() -> new InvalidCredentialsException());
+            .orElseThrow(() -> new InvalidCredentialsException("service.auth.invalid_credentials"));
 
         if (!passwordEncoderPort.matches(command.password(), existingUser.getPassword())) {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("service.auth.invalid_credentials");
         }
 
         String token = accessTokenPort.generateTokenWithClaims(

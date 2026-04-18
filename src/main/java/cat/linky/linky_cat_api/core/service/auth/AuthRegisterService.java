@@ -74,19 +74,19 @@ public class AuthRegisterService implements AuthRegisterUseCase {
     
     private void checkVerifiedEmail(String email) {
         EmailVerification emailVerification = emailVerificationRepositoryPort.findByEmail(email)
-            .orElseThrow(() -> new InvalidArgumentException("email is not verified"));
+            .orElseThrow(() -> new InvalidArgumentException("service.auth.email_not_verified"));
 
         if (!emailVerification.getIsVerified()) 
-            throw new InvalidArgumentException("email is not verified");
+            throw new InvalidArgumentException("service.auth.email_not_verified");
     }
 
     private void checkExistingUsername(String username) {
         if (userRepositoryPort.existsByUsername(username))
-            throw new IntegrityViolationException("this username is already taken");
+            throw new IntegrityViolationException("service.auth.existing_username");
     }
 
     private void checkExistingEmail(String email) {
         if (userRepositoryPort.existsByEmail(email))
-            throw new IntegrityViolationException("this email is already taken");
+            throw new IntegrityViolationException("service.auth.existing_email");
     }
 }

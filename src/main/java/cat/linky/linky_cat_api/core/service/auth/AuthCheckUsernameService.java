@@ -20,7 +20,7 @@ public class AuthCheckUsernameService implements AuthCheckUsernameUseCase {
         User.validateUsername(username);
         
         if (userRepositoryPort.existsByUsername(username)) {
-            throw new IntegrityViolationException("this username is already taken");  
+            throw new IntegrityViolationException("service.auth.existing_username");  
         }
     }
     

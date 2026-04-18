@@ -46,13 +46,13 @@ public class User {
 
     public void validate() {
         if (username == null || username.isEmpty())
-            throw new InvalidArgumentException("Username cannot be blank");
+            throw new InvalidArgumentException("domain.user.username.blank");
         
         if (email == null || email.isEmpty())
-            throw new InvalidArgumentException("Email cannot be blank");
+            throw new InvalidArgumentException("domain.user.email.blank");
 
         if (password == null || password.isEmpty())
-            throw new InvalidArgumentException("Password cannot be blank");
+            throw new InvalidArgumentException("domain.user.password.blank");
 
         validateUsername(username);
         validateEmail(email);
@@ -61,41 +61,41 @@ public class User {
 
     public static void validateUsername(String username) {
         if (username.length() > 32) 
-            throw new InvalidArgumentException("Username length cannot be over 32 characters");
+            throw new InvalidArgumentException("domain.user.username.max_length");
 
         if (username.matches(".*[^A-Za-z0-9._].*"))
-            throw new InvalidArgumentException("Username can only contain letters (A-Z, a-z), numbers, underscores, and periods");
+            throw new InvalidArgumentException("domain.user.username.invalid_chars");
 
         if (!username.matches(".*[A-Za-z0-9].*"))
-            throw new InvalidArgumentException("Username must contain at least one letter (A-Z, a-z) or number");
+            throw new InvalidArgumentException("domain.user.username.required_chars");
 
         if (username.contains(".."))
-            throw new InvalidArgumentException("Username cannot contain more than one period in a row");
+            throw new InvalidArgumentException("domain.user.username.sequential_periods");
 
         if (username.startsWith(".") || username.endsWith("."))
-            throw new InvalidArgumentException("Username cannot start or end with a period");
+            throw new InvalidArgumentException("domain.user.username.start_end_period");
     }
 
     public static void validateEmail(String email) {
         if (email.matches("^(?=.{1,64}@)[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$")); 
-            throw new InvalidArgumentException("Email is invalid");
+            throw new InvalidArgumentException("domain.user.email.invalid");
     }
 
     private void validatePassword(String password) {
         if (password.length() < 8)
-            throw new InvalidArgumentException("Password must contain at least 8 characters");
+            throw new InvalidArgumentException("domain.user.password.min_length");
 
         if (password.matches("[A-Z]")) 
-            throw new InvalidArgumentException("Password must contain at least one uppercase letter (A-Z)");
+            throw new InvalidArgumentException("domain.user.password.uppercase_letter");
 
         if (password.matches("[a-z]"))
-            throw new InvalidArgumentException("Password must contain at least one lowercase letter (a-z)");
+            throw new InvalidArgumentException("domain.user.password.lowercase_letter");
 
         if (password.matches("[0-9]"))
-            throw new InvalidArgumentException("Password must contain at least one number");
+            throw new InvalidArgumentException("domain.user.password.number");
 
         if (password.matches("[!@#$%^&*()_+\\-=[\\]{};':\",./<>?]"))
-            throw new InvalidArgumentException("Password must contain at least one special character (e.g. @, ! or #)");
+            throw new InvalidArgumentException("domain.user.password.special_char");
     }
 
     @Override

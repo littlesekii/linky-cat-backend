@@ -55,7 +55,7 @@ public class Profile {
     public void updateDisplayName(String displayName) {
         if (displayName != null) {
             if(displayName.isBlank())
-                throw new InvalidArgumentException("displayName cannot be blank");
+                throw new InvalidArgumentException("domain.profile.display_name.blank");
 
             this.displayName = displayName;
         }
@@ -68,13 +68,13 @@ public class Profile {
 
     public void validate() {
         if (userId == null)
-            throw new InvalidArgumentException("userId cannot be null");
+            throw new InvalidArgumentException("domain.profile.user_id.null");
 
         if (displayName == null || displayName.isEmpty())
-            throw new InvalidArgumentException("displayName cannot be blank");
+            throw new InvalidArgumentException("domain.profile.display_name.blank");
 
         if (profileViews < 0)
-            throw new InvalidArgumentException("profileViews cannot be less than 0");  
+            throw new InvalidArgumentException("domain.profile.profile_views.less_than_zero");  
     }
 
     @Override

@@ -1,14 +1,7 @@
 package cat.linky.linky_cat_api.core.exception;
 
-public class IntegrityViolationException extends RuntimeException {
-
-    public final String errorCode = "DAT-001";
-
-    public IntegrityViolationException(String message) {
-        super(message);
+public class IntegrityViolationException extends ApplicationException {
+    public IntegrityViolationException(String code, Object... args) {
+        super(code, args);
     }   
-
-    public String errorCode() {
-        return errorCode;
-    }
 }

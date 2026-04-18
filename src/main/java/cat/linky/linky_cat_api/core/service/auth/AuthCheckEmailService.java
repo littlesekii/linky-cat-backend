@@ -20,7 +20,7 @@ public class AuthCheckEmailService implements AuthCheckEmailUseCase {
         User.validateEmail(email);
 
         if (userRepositoryPort.existsByEmail(email)) {
-            throw new IntegrityViolationException("this email is already taken");  
+            throw new IntegrityViolationException("service.auth.existing_email");  
         }
     }
     

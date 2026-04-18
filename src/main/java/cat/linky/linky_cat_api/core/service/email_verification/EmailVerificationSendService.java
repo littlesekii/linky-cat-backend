@@ -36,7 +36,7 @@ public class EmailVerificationSendService implements EmailVerificationSendUseCas
         if (emailVerification != null) {
 
             if (emailVerification.getIsVerified()) 
-                throw new InvalidArgumentException("email is already verified");
+                throw new InvalidArgumentException("service.email_verification.already_verified");
 
             long secondsSinceLastSentVerification = Duration.between(
                 emailVerification.getUpdatedAt(), 
@@ -44,7 +44,7 @@ public class EmailVerificationSendService implements EmailVerificationSendUseCas
             ).getSeconds();
 
             if (secondsSinceLastSentVerification < 60) {
-                throw new TooManyRequestsException("please wait " + (60 - secondsSinceLastSentVerification) + " seconds before send another verification");
+                throw new TooManyRequestsException("service.email_verification.verification_timeout", 60 - secondsSinceLastSentVerification);
             }
 
             emailVerification.updateVerificationCode(verificationCode);            

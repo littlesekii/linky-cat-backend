@@ -17,7 +17,7 @@ public class LinkDeleteService implements LinkDeleteUseCase {
     @Override
     public void execute(UUID id, UUID userId) {
         if (!repositoryPort.checkOwnership(id, userId))
-            throw new UnauthorizedOperationException();
+            throw new UnauthorizedOperationException("authorization.unauthorized_operation");
 
         repositoryPort.deleteById(id);
     }

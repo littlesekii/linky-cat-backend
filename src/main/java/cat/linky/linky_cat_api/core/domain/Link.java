@@ -71,7 +71,7 @@ public class Link {
     public void updateTitle(String title) {
         if (title != null) {
             if (title.isEmpty())
-                throw new InvalidArgumentException("title cannot be blank");
+                throw new InvalidArgumentException("domain.link.title.blank");
             
             this.title = title;
         }
@@ -80,7 +80,7 @@ public class Link {
     public void updateUrl(String url) {
         if (url != null) {
             if (url.isEmpty())
-                throw new InvalidArgumentException("url cannot be blank");
+                throw new InvalidArgumentException("domain.link.url.blank");
             
             this.url = url;
         }
@@ -89,7 +89,7 @@ public class Link {
     public void updateSortOrder(Integer sortOrder) {
         if (sortOrder != null) {
             if (sortOrder < 0)
-                throw new InvalidArgumentException("sortOrder cannot be less than 0");
+                throw new InvalidArgumentException("domain.link.sort_order.less_than_zero");
             
             this.sortOrder = sortOrder;
         }
@@ -103,25 +103,25 @@ public class Link {
 
     public void validate() {
         if (profileId == null)
-            throw new InvalidArgumentException("profileId cannot be null");
+            throw new InvalidArgumentException("domain.link.profile_id.null");
 
         if (title == null || title.isEmpty())
-            throw new InvalidArgumentException("title cannot be blank");
+            throw new InvalidArgumentException("domain.link.title.blank");
         
         if (url == null || url.isEmpty())
-            throw new InvalidArgumentException("url cannot be blank");
+            throw new InvalidArgumentException("domain.link.url.blank");
         
         if (sortOrder  == null)
-            throw new InvalidArgumentException("sortOrder cannot be null");
+            throw new InvalidArgumentException("domain.link.sort_order.null");
 
         if (sortOrder < 0)
-            throw new InvalidArgumentException("sortOrder cannot be less than 0");
+            throw new InvalidArgumentException("domain.link.sort_order.less_than_zero");
         
         if (clickCount < 0L)
-            throw new InvalidArgumentException("clickCount cannot be less than 0");
+            throw new InvalidArgumentException("domain.link.click_count.less_than_zero");
         
         if (isActive == null)
-            throw new InvalidArgumentException("isActive cannot be null");
+            throw new InvalidArgumentException("domain.link.is_active.null");
     }
 
     @Override
