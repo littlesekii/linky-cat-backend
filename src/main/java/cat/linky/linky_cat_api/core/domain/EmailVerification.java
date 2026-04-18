@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
+import cat.linky.linky_cat_api.core.exception.InvalidArgumentException;
+
 public class EmailVerification {
     
     private UUID id;
@@ -24,6 +26,7 @@ public class EmailVerification {
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        validate();
     }
     public EmailVerification(String email, String verificationCode) {
         this.id = null;
@@ -35,6 +38,7 @@ public class EmailVerification {
         this.expiresAt = now.plus(Duration.ofMinutes(10L));
         this.createdAt = now;
         this.updatedAt = now;
+        validate();
     }
     
     public UUID getId() {
@@ -77,6 +81,11 @@ public class EmailVerification {
     }
 
     public void updateVerificationCode(String verificationCode) {
+        if (verificationCode != null) {
+            if (verificationCode.isEmpty())
+                throw new InvalidArgumentException("domain.email_verification.verification_code.blank");
+        }
+
         this.verificationCode = verificationCode;
 
         Instant now = Instant.now();
@@ -90,6 +99,14 @@ public class EmailVerification {
 
     private void updateExpiresAt(Instant moment) {
         this.expiresAt = moment.plus(Duration.ofMinutes(10L));
+    }
+
+    public void validate() {
+        if (email == null || email.isEmpty())
+            throw new InvalidArgumentException("domain.email_verification.email.blank");
+
+        if (verificationCode == null || verificationCode.isEmpty())
+            throw new InvalidArgumentException("domain.email_verification.verification_code.blank");
     }
 
     @Override
