@@ -26,15 +26,20 @@ public class LinkCreateService implements LinkCreateUseCase {
 
     @Override
     public LinkResult execute(LinkCreateCommand command, UUID userId) {
+        String title = command.title();
+        String url = command.url();
+        Integer sortOrder = command.sortOrder();
+        Boolean isActive = command.isActive();
+
         Profile existingProfile = profileRepositoryPort.findByUserId(userId)
             .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
         Link newLink = new Link(
             existingProfile.getId(), 
-            command.title(), 
-            command.url(), 
-            command.sortOrder(), 
-            command.isActive()
+            title, 
+            url, 
+            sortOrder, 
+            isActive
         );
 
         newLink = repositoryPort.save(newLink);

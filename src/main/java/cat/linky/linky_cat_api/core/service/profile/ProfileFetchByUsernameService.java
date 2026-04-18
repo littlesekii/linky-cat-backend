@@ -31,6 +31,7 @@ public class ProfileFetchByUsernameService implements ProfileFetchByUsernameUseC
 
     @Override
     public ProfileResult execute(String username) {
+        username = username.trim().toLowerCase();
 
         User existingUser = userRepositoryPort.findByUsername(username)
             .orElseThrow(() -> new ResourceNotFoundException("service.user.not_found"));

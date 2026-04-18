@@ -18,8 +18,8 @@ public class EmailVerificationVerifyService implements EmailVerificationVerifyUs
     }
     @Override
     public void execute(EmailVerificationVerifyCommand command) {
-        String email = command.email().toLowerCase().trim();
-        String verificationCode = command.verificationCode().toUpperCase().trim();
+        String email = command.email().trim().toLowerCase();
+        String verificationCode = command.verificationCode().trim().toUpperCase();
 
         EmailVerification emailVerification = repositoryPort.findByEmail(email)
             .orElseThrow(() -> new ResourceNotFoundException("service.email_verification.not_found"));

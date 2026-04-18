@@ -20,16 +20,21 @@ public class LinkUpdateService implements LinkUpdateUseCase {
 
     @Override
     public LinkResult execute(UUID id, LinkUpdateCommand command, UUID userId) {
+        String title = command.title();
+        String url = command.url();
+        Integer sortOrder = command.sortOrder();
+        Boolean isActive = command.isActive();
+
         if (!repositoryPort.checkOwnership(id, userId))
             throw new UnauthorizedOperationException("authorization.unauthorized_operation");
 
         Link existingLink = repositoryPort.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("service.link.not_found"));
 
-        existingLink.updateTitle(command.title());
-        existingLink.updateUrl(command.url());
-        existingLink.updateSortOrder(command.sortOrder());
-        existingLink.updateIsActive(command.isActive());
+        existingLink.updateTitle(title);
+        existingLink.updateUrl(url);
+        existingLink.updateSortOrder(sortOrder);
+        existingLink.updateIsActive(isActive);
 
         existingLink = repositoryPort.save(existingLink);
 

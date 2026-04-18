@@ -27,7 +27,7 @@ public class EmailVerificationSendService implements EmailVerificationSendUseCas
 
     @Override
     public void execute(EmailVerificationSendCommand command) {
-        String email = command.email().toLowerCase().trim();
+        String email = command.email().trim().toLowerCase();
         
         EmailVerification emailVerification = repositoryPort.findByEmail(email)
             .orElse(null);

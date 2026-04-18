@@ -38,8 +38,8 @@ public class AuthRegisterService implements AuthRegisterUseCase {
 
     @Override
     public AuthRegisterResult execute(AuthRegisterCommand command) {
-        String email = command.email().toLowerCase().trim();
-        String username = command.username().toLowerCase().trim();
+        String email = command.email().trim().toLowerCase();
+        String username = command.username().trim().toLowerCase();
 
         checkVerifiedEmail(email);
         checkExistingEmail(email);

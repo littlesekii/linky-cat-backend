@@ -20,14 +20,17 @@ public class ProfileUpdateService implements ProfileUpdateUseCase {
 
     @Override
     public ProfileResult execute(UUID id, ProfileUpdateCommand command, UUID userId) {
+        String displayName = command.displayName();
+        String bio = command.bio();
+
         if (!repositoryPort.checkOwnership(id, userId))
             throw new UnauthorizedOperationException("authorization.unauthorized_operation");
 
         Profile existingProfile = repositoryPort.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
-        existingProfile.updateDisplayName(command.displayName());
-        existingProfile.updateBio(command.bio());
+        existingProfile.updateDisplayName(displayName);
+        existingProfile.updateBio(bio);
 
         existingProfile = repositoryPort.save(existingProfile);
 

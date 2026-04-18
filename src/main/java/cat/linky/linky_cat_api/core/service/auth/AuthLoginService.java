@@ -29,11 +29,14 @@ public class AuthLoginService implements AuthLoginUseCase {
 
     @Override
     public AuthLoginResult execute(AuthLoginCommand command) {
+        String username = command.username().trim().toLowerCase();
+        String password = command.password();
 
-        User existingUser = userRepositoryPort.findByUsername(command.username())
+
+        User existingUser = userRepositoryPort.findByUsername(username)
             .orElseThrow(() -> new InvalidCredentialsException("service.auth.invalid_credentials"));
 
-        if (!passwordEncoderPort.matches(command.password(), existingUser.getPassword())) {
+        if (!passwordEncoderPort.matches(password, existingUser.getPassword())) {
             throw new InvalidCredentialsException("service.auth.invalid_credentials");
         }
 

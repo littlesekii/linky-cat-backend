@@ -15,7 +15,7 @@ public class AuthCheckUsernameService implements AuthCheckUsernameUseCase {
 
     @Override
     public void execute(String username) {
-        username = username.toLowerCase();
+        username = username.trim().toLowerCase();
 
         User.validateUsername(username);
         

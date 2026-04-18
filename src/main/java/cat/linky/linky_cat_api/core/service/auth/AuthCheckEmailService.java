@@ -15,7 +15,7 @@ public class AuthCheckEmailService implements AuthCheckEmailUseCase {
 
     @Override
     public void execute(String email) {
-        email = email.toLowerCase();
+        email = email.trim().toLowerCase();
 
         User.validateEmail(email);
 
