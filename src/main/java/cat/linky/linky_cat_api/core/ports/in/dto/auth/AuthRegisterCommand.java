@@ -4,7 +4,6 @@ public record AuthRegisterCommand(
     String username, 
     String email, 
     String password, 
-    String passwordConfirmation,
     String displayName, 
     String bio
 ) {}

@@ -6,7 +6,6 @@ public record AuthRegisterRequest(
     String username, 
     String email, 
     String password, 
-    String passwordConfirmation,
     String displayName, 
     String bio
 ) {
@@ -15,7 +14,6 @@ public record AuthRegisterRequest(
             username,
             email,
             password,
-            passwordConfirmation,
             displayName,
             bio
         );

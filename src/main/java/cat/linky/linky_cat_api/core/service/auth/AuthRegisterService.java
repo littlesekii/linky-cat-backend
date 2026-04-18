@@ -44,7 +44,6 @@ public class AuthRegisterService implements AuthRegisterUseCase {
         checkVerifiedEmail(email);
         checkExistingEmail(email);
         checkExistingUsername(username);
-        checkPasswordConfirmation(command.password(), command.passwordConfirmation());
 
         String encodedPassword = passwordEncoderPort.encode(command.password());
 
@@ -89,10 +88,5 @@ public class AuthRegisterService implements AuthRegisterUseCase {
     private void checkExistingEmail(String email) {
         if (userRepositoryPort.existsByEmail(email))
             throw new IntegrityViolationException("this email is already taken");
-    }
-
-    private void checkPasswordConfirmation(String password, String passwordConfirmation) {
-        if (!password.equals(passwordConfirmation))
-            throw new InvalidArgumentException("passwords does not match");
     }
 }
