@@ -1,5 +1,6 @@
 package cat.linky.linky_cat_api.core.service.auth;
 
+import cat.linky.linky_cat_api.core.domain.User;
 import cat.linky.linky_cat_api.core.exception.IntegrityViolationException;
 import cat.linky.linky_cat_api.core.ports.in.usecase.auth.AuthCheckEmailUseCase;
 import cat.linky.linky_cat_api.core.ports.out.repository.UserRepositoryPort;
@@ -15,6 +16,8 @@ public class AuthCheckEmailService implements AuthCheckEmailUseCase {
     @Override
     public void execute(String email) {
         email = email.toLowerCase();
+
+        User.validateEmail(email);
 
         if (userRepositoryPort.existsByEmail(email)) {
             throw new IntegrityViolationException("this email is already taken");  
