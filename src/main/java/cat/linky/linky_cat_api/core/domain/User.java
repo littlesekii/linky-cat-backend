@@ -56,7 +56,7 @@ public class User {
 
         validateUsername(username);
         validateEmail(email);
-        validatePassword(password);
+        // validatePassword(password);
     }
 
     public static void validateUsername(String username) {
@@ -81,7 +81,7 @@ public class User {
             throw new InvalidArgumentException("domain.user.email.invalid");
     }
 
-    private void validatePassword(String password) {
+    public static void validatePassword(String password) {
         if (password.length() < 8)
             throw new InvalidArgumentException("domain.user.password.min_length");
 
