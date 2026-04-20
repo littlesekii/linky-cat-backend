@@ -40,17 +40,21 @@ public class AuthRegisterService implements AuthRegisterUseCase {
     public AuthRegisterResult execute(AuthRegisterCommand command) {
         String email = command.email().trim().toLowerCase();
         String username = command.username().trim().toLowerCase();
+        String password = command.password();
+        String displayName = command.displayName();
+        String bio = command.bio();
 
         checkVerifiedEmail(email);
         checkExistingEmail(email);
         checkExistingUsername(username);
+        User.validatePassword(password);
 
-        String encodedPassword = passwordEncoderPort.encode(command.password());
+        String encodedPassword = passwordEncoderPort.encode(password);
 
         User newUser = new User(username, email, encodedPassword);
         newUser = userRepositoryPort.save(newUser);
         
-        Profile newProfile = new Profile(newUser.getId(), command.displayName(), command.bio());
+        Profile newProfile = new Profile(newUser.getId(), displayName, bio);
         newProfile = profileRepositoryPort.save(newProfile);
 
         ProfileResult profileResult = new ProfileResult(
