@@ -85,16 +85,16 @@ public class User {
         if (password.length() < 8)
             throw new InvalidArgumentException("domain.user.password.min_length");
 
-        if (!password.matches("[A-Z]")) 
+        if (!password.matches(".*[A-Z].*")) 
             throw new InvalidArgumentException("domain.user.password.uppercase_letter");
 
-        if (!password.matches("[a-z]"))
+        if (!password.matches(".*[a-z].*"))
             throw new InvalidArgumentException("domain.user.password.lowercase_letter");
 
-        if (!password.matches("[0-9]"))
+        if (!password.matches(".*[0-9].*"))
             throw new InvalidArgumentException("domain.user.password.number");
 
-        if (!password.matches("[!@#$%^&*()_+\\-=[\\]{};':\",./<>?]"))
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\",./<>?].*"))
             throw new InvalidArgumentException("domain.user.password.special_char");
     }
 
