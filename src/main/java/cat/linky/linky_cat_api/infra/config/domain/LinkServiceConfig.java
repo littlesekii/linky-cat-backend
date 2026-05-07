@@ -8,6 +8,7 @@ import cat.linky.linky_cat_api.core.ports.out.repository.LinkRepositoryPort;
 import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.service.link.LinkCreateService;
 import cat.linky.linky_cat_api.core.service.link.LinkDeleteService;
+import cat.linky.linky_cat_api.core.service.link.LinkFindAllService;
 import cat.linky.linky_cat_api.core.service.link.LinkUpdateService;
 import jakarta.transaction.Transactional;
 
@@ -15,6 +16,15 @@ import jakarta.transaction.Transactional;
 @EnableTransactionManagement
 public class LinkServiceConfig {
     
+
+    @Bean
+    public LinkFindAllService linkFindAllService(
+        ProfileRepositoryPort profileRepositoryPort,
+        LinkRepositoryPort repositoryPort 
+    ) {
+        return new LinkFindAllService(profileRepositoryPort, repositoryPort);
+    }
+
     @Bean
     @Transactional
     public LinkCreateService linkCreateService(

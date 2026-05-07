@@ -1,11 +1,13 @@
 package cat.linky.linky_cat_api.adapters.in.web.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,25 +21,39 @@ import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkUpdateRequest;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkCreateUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkDeleteUseCase;
+import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkFindAllUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkUpdateUseCase;
+
 
 @RestController
 @RequestMapping("/api/links")
 public class LinkController {
     
+    private final LinkFindAllUseCase linkFindAllUseCase;
     private final LinkCreateUseCase linkCreateUseCase;
     private final LinkUpdateUseCase linkUpdateUseCase;
     private final LinkDeleteUseCase linkDeleteUseCase;
 
     public LinkController(
+        LinkFindAllUseCase linkFindAllUseCase,
         LinkCreateUseCase linkCreateUseCase,
         LinkUpdateUseCase linkUpdateUseCase, 
-        LinkDeleteUseCase linkDeleteUseCase
+        LinkDeleteUseCase linkDeleteUseCase 
     ) {
+        this.linkFindAllUseCase = linkFindAllUseCase;
         this.linkCreateUseCase = linkCreateUseCase;
         this.linkUpdateUseCase = linkUpdateUseCase;
         this.linkDeleteUseCase = linkDeleteUseCase;
     }
+
+    @GetMapping
+    public ResponseEntity<List<LinkResponse>> findAll(@AuthenticationPrincipal String userId) {
+        List<LinkResponse> res = linkFindAllUseCase.execute(UUID.fromString(userId)).stream()
+            .map(LinkResponse::fromResult)
+            .toList();
+        return ResponseEntity.ok().body(res);
+    }
+    
 
     @PostMapping
     public ResponseEntity<LinkResponse> create(
