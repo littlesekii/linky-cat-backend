@@ -9,6 +9,7 @@ import cat.linky.linky_cat_api.core.ports.out.repository.ProfileRepositoryPort;
 import cat.linky.linky_cat_api.core.service.link.LinkCreateService;
 import cat.linky.linky_cat_api.core.service.link.LinkDeleteService;
 import cat.linky.linky_cat_api.core.service.link.LinkFindAllService;
+import cat.linky.linky_cat_api.core.service.link.LinkReorderService;
 import cat.linky.linky_cat_api.core.service.link.LinkUpdateService;
 import jakarta.transaction.Transactional;
 
@@ -38,6 +39,15 @@ public class LinkServiceConfig {
     @Transactional
     public LinkUpdateService linkUpdateService(LinkRepositoryPort repositoryPort) {
         return new LinkUpdateService(repositoryPort);
+    }
+
+    @Bean
+    @Transactional
+    public LinkReorderService linkReorderService(
+        ProfileRepositoryPort profileRepositoryPort, 
+        LinkRepositoryPort linkRepositoryPort
+    ) {
+        return new LinkReorderService(profileRepositoryPort, linkRepositoryPort);
     }
 
     @Bean

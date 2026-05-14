@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkCreateRequest;
+import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkReorderRequest;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkResponse;
 import cat.linky.linky_cat_api.adapters.in.web.controller.dto.link.LinkUpdateRequest;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkCreateUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkDeleteUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkFindAllUseCase;
+import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkReorderUseCase;
 import cat.linky.linky_cat_api.core.ports.in.usecase.link.LinkUpdateUseCase;
 
 
@@ -32,17 +34,20 @@ public class LinkController {
     private final LinkFindAllUseCase linkFindAllUseCase;
     private final LinkCreateUseCase linkCreateUseCase;
     private final LinkUpdateUseCase linkUpdateUseCase;
+    private final LinkReorderUseCase linkReorderUseCase;
     private final LinkDeleteUseCase linkDeleteUseCase;
 
     public LinkController(
         LinkFindAllUseCase linkFindAllUseCase,
         LinkCreateUseCase linkCreateUseCase,
         LinkUpdateUseCase linkUpdateUseCase, 
-        LinkDeleteUseCase linkDeleteUseCase 
+        LinkReorderUseCase linkReorderUseCase,
+        LinkDeleteUseCase linkDeleteUseCase
     ) {
         this.linkFindAllUseCase = linkFindAllUseCase;
         this.linkCreateUseCase = linkCreateUseCase;
         this.linkUpdateUseCase = linkUpdateUseCase;
+        this.linkReorderUseCase = linkReorderUseCase;
         this.linkDeleteUseCase = linkDeleteUseCase;
     }
 
@@ -84,8 +89,22 @@ public class LinkController {
         return ResponseEntity.ok().body(res);
     }
 
+    @PatchMapping("/reorder")
+    public ResponseEntity<Void> reorder(
+        @AuthenticationPrincipal String userId,
+        @RequestBody List<LinkReorderRequest> req
+    ) {
+        linkReorderUseCase.execute(
+            req.stream()
+                .map(LinkReorderRequest::toCommand)
+                .toList(), 
+            UUID.fromString(userId)
+        );
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<LinkResponse> delete(
+    public ResponseEntity<Void> delete(
         @AuthenticationPrincipal String userId, 
         @PathVariable UUID id
     ) {
