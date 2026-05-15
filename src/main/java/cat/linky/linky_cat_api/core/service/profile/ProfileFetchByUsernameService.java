@@ -39,7 +39,7 @@ public class ProfileFetchByUsernameService implements ProfileFetchByUsernameUseC
         Profile existingProfile = repositoryPort.findByUserId(existingUser.getId())
             .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
-        List<Link> existingLinks = linkRepositoryPort.findAllByProfileId(existingProfile.getId());
+        List<Link> existingLinks = linkRepositoryPort.findAllByProfileIdAndIsActiveTrueOrderBySortOrderDesc(existingProfile.getId());
 
         List<LinkResult> linkResultList = existingLinks.stream()
             .map((link) -> new LinkResult(

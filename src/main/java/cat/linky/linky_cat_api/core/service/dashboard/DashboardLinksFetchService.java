@@ -32,7 +32,7 @@ public class DashboardLinksFetchService implements DashboardLinksFetchUseCase {
         Profile existingProfile = profileRepositoryPort.findByUserId(userId)
          .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
-        List<Link> existingLinks = linkRepositoryPort.findAllByProfileId(existingProfile.getId());
+        List<Link> existingLinks = linkRepositoryPort.findAllByProfileIdOrderBySortOrderDesc(existingProfile.getId());
 
         List<LinkResult> linkResultList = existingLinks.stream()
             .map(link -> new LinkResult(

@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface LinkJpaRepository extends JpaRepository<LinkJpaEntity, UUID> {
     public List<LinkJpaEntity> findAllByProfileId(UUID profileId);
+    public List<LinkJpaEntity> findAllByProfileIdOrderBySortOrderDesc(UUID profileId);
+
+    public List<LinkJpaEntity> findAllByProfileIdAndIsActiveTrue(UUID profileId);
+    public List<LinkJpaEntity> findAllByProfileIdAndIsActiveTrueOrderBySortOrderDesc(UUID profileId);
 
     @Query(value = """
         SELECT EXISTS (

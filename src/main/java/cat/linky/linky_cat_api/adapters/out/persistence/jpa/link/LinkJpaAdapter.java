@@ -32,6 +32,27 @@ public class LinkJpaAdapter implements LinkRepositoryPort {
     }
 
     @Override
+    public List<Link> findAllByProfileIdOrderBySortOrderDesc(UUID profileId) {
+        return repository.findAllByProfileIdOrderBySortOrderDesc(profileId).stream()
+            .map(LinkJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
+    public List<Link> findAllByProfileIdAndIsActiveTrue(UUID profileId) {
+        return repository.findAllByProfileIdAndIsActiveTrue(profileId).stream()
+            .map(LinkJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
+    public List<Link> findAllByProfileIdAndIsActiveTrueOrderBySortOrderDesc(UUID profileId) {
+        return repository.findAllByProfileIdAndIsActiveTrueOrderBySortOrderDesc(profileId).stream()
+            .map(LinkJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
     public Link save(Link link) {
         LinkJpaEntity entity = LinkJpaEntity.fromDomain(link);
         LinkJpaEntity saved = repository.save(entity);
