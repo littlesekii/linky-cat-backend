@@ -9,6 +9,8 @@ import cat.linky.linky_cat_api.core.domain.Link;
 public interface LinkRepositoryPort {
     public Optional<Link> findById(UUID id);
 
+    public Integer findMaxSortOrderByProfileId(UUID profileId);
+
     public List<Link> findAllByProfileId(UUID profileId);
     public List<Link> findAllByProfileIdOrderBySortOrderDesc(UUID profileId);
 

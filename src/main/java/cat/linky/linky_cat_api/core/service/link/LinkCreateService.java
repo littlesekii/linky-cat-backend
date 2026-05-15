@@ -34,11 +34,13 @@ public class LinkCreateService implements LinkCreateUseCase {
         Profile existingProfile = profileRepositoryPort.findByUserId(userId)
             .orElseThrow(() -> new ResourceNotFoundException("service.profile.not_found"));
 
+        Integer lastSortOrder = repositoryPort.findMaxSortOrderByProfileId(existingProfile.getId());
+
         Link newLink = new Link(
             existingProfile.getId(), 
             title, 
             url, 
-            sortOrder, 
+            lastSortOrder + 1, 
             isActive
         );
 

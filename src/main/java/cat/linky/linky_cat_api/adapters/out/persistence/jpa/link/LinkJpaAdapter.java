@@ -25,6 +25,11 @@ public class LinkJpaAdapter implements LinkRepositoryPort {
     }
 
     @Override
+    public Integer findMaxSortOrderByProfileId(UUID profileId) {
+        return repository.findMaxSortOrderByProfileId(profileId);
+    }
+
+    @Override
     public List<Link> findAllByProfileId(UUID profileId) {
         return repository.findAllByProfileId(profileId).stream()
             .map(LinkJpaEntity::toDomain)

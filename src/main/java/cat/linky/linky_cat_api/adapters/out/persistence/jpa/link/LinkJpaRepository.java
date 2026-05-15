@@ -7,6 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface LinkJpaRepository extends JpaRepository<LinkJpaEntity, UUID> {
+
+    @Query(value = """
+        SELECT 
+            coalesce(MAX(l.sort_order), 0) 
+        FROM t_link l 
+        WHERE 
+            l.profile_id = :profileId
+    """, nativeQuery = true)
+    public Integer findMaxSortOrderByProfileId(UUID profileId);
+
     public List<LinkJpaEntity> findAllByProfileId(UUID profileId);
     public List<LinkJpaEntity> findAllByProfileIdOrderBySortOrderDesc(UUID profileId);
 
