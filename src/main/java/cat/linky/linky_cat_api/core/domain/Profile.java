@@ -56,6 +56,8 @@ public class Profile {
         if (displayName != null) {
             if(displayName.isBlank())
                 throw new InvalidArgumentException("domain.profile.display_name.blank");
+            if(displayName.length() > 30)
+                throw new InvalidArgumentException("domain.profile.display_name.max_length");
 
             this.displayName = displayName;
         }
@@ -63,6 +65,8 @@ public class Profile {
 
     public void updateBio(String bio) {
         if (bio != null) 
+            if (bio.length() > 160)
+                throw new InvalidArgumentException("domain.profile.bio.max_length");
             this.bio = bio;
     }
 
