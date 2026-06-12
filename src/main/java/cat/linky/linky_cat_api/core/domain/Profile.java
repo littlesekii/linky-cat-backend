@@ -11,15 +11,17 @@ public class Profile {
 
     private String displayName;
     private String bio;
+    private String imageUrl;
     
     private Long profileViews;
     
     public Profile() {}
-    public Profile(UUID id, UUID userId, String displayName, String bio, Long profileViews) {
+    public Profile(UUID id, UUID userId, String displayName, String bio, String imageUrl, Long profileViews) {
         this.id = id;
         this.userId = userId;
         this.displayName = displayName;
         this.bio = bio;
+        this.imageUrl = imageUrl;
         this.profileViews = profileViews;
         validate();
     }
@@ -28,7 +30,9 @@ public class Profile {
         this.userId = userId;
         this.displayName = displayName;
         this.bio = bio;
+        this.imageUrl = "default.webp";
         this.profileViews = 0L;
+        
         validate();
     }
 
@@ -48,6 +52,10 @@ public class Profile {
         return bio;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    
     public Long getProfileViews() {
         return profileViews;
     }
@@ -70,12 +78,20 @@ public class Profile {
             this.bio = bio;
     }
 
+    public void updateImageUrl(String imageUrl) {
+        if (imageUrl != null) 
+            this.imageUrl = imageUrl;
+    }
+
     public void validate() {
         if (userId == null)
             throw new InvalidArgumentException("domain.profile.user_id.null");
 
         if (displayName == null || displayName.isEmpty())
             throw new InvalidArgumentException("domain.profile.display_name.blank");
+
+        if (imageUrl == null || imageUrl.isEmpty())
+            throw new InvalidArgumentException("domain.profile.image_url.blank");
 
         if (profileViews < 0)
             throw new InvalidArgumentException("domain.profile.profile_views.less_than_zero");  
@@ -104,7 +120,5 @@ public class Profile {
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    
+    }    
 }

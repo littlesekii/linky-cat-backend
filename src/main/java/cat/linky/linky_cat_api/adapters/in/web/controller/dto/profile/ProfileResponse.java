@@ -14,6 +14,7 @@ public record ProfileResponse(
     UUID id,
     String displayName,
     String bio,
+    String imageUrl,
     Long profileViews,
     List<LinkResponse> links
 ) {
@@ -22,6 +23,7 @@ public record ProfileResponse(
             result.id(),
             result.displayName(),
             result.bio(),
+            result.imageUrl(),
             result.profileViews(),
             Optional.ofNullable(result.links())
                 .map(links -> links.stream().map(LinkResponse::fromResult).toList())

@@ -9,6 +9,7 @@ public record ProfileResult(
     UUID id,
     String displayName,
     String bio,
+    String imageUrl,
     Long profileViews,
     List<LinkResult> links
 ) {}

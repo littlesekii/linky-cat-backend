@@ -38,6 +38,7 @@ public class ProfileUpdateService implements ProfileUpdateUseCase {
             null, 
             existingProfile.getDisplayName(), 
             existingProfile.getBio(), 
+            null,
             null, 
             null
         );

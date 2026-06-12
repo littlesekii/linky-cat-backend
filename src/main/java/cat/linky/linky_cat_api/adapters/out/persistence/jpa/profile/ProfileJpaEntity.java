@@ -23,15 +23,17 @@ public class ProfileJpaEntity {
 
     private String displayName;
     private String bio;
+    private String imageUrl;
 
     private Long profileViews;
     
     public ProfileJpaEntity() {}
-    public ProfileJpaEntity(UUID id, UUID userId, String displayName, String bio, Long profileViews) {
+    public ProfileJpaEntity(UUID id, UUID userId, String displayName, String bio, String imageUrl, Long profileViews) {
         this.id = id;
         this.userId = userId;
         this.displayName = displayName;
         this.bio = bio;
+        this.imageUrl = imageUrl;
         this.profileViews = profileViews;
     }
 
@@ -51,6 +53,10 @@ public class ProfileJpaEntity {
         return bio;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public Long getProfileViews() {
         return profileViews;
     }
@@ -61,6 +67,7 @@ public class ProfileJpaEntity {
             userId,
             displayName, 
             bio, 
+            imageUrl,
             profileViews
         );
     }
@@ -71,6 +78,7 @@ public class ProfileJpaEntity {
             profile.getUserId(),
             profile.getDisplayName(), 
             profile.getBio(),
+            profile.getImageUrl(),
             profile.getProfileViews()
         );
     }

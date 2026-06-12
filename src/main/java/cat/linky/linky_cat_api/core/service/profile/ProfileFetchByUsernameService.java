@@ -56,6 +56,7 @@ public class ProfileFetchByUsernameService implements ProfileFetchByUsernameUseC
             null,
             existingProfile.getDisplayName(), 
             existingProfile.getBio(), 
+            existingProfile.getImageUrl(),
             null,
             linkResultList
         );

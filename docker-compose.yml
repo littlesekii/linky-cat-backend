@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   postgres:
     image: postgres:15-alpine
     container_name: linkycat-postgres
@@ -13,5 +14,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  localstack:
+    container_name: localstack_s3
+    image: localstack/localstack:3.8
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   postgres_data:
+  localstack_data:

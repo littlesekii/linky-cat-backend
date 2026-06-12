@@ -61,6 +61,7 @@ public class AuthRegisterService implements AuthRegisterUseCase {
             newProfile.getId(), 
             newProfile.getDisplayName(), 
             newProfile.getBio(),
+            newProfile.getImageUrl(),
             newProfile.getProfileViews(), 
             new ArrayList<>()
         );
