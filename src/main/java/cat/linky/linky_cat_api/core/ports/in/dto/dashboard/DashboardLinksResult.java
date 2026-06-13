@@ -9,5 +9,6 @@ public record DashboardLinksResult(
     UUID profileId,
     String displayName,
     String bio,
+    String imageUrl,
     List<LinkResult> links
 ) {}

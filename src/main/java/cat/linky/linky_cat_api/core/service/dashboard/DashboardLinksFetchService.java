@@ -49,6 +49,7 @@ public class DashboardLinksFetchService implements DashboardLinksFetchUseCase {
             existingProfile.getId(),
             existingProfile.getDisplayName(), 
             existingProfile.getBio(), 
+            existingProfile.getImageUrl(), 
             linkResultList
         );
         

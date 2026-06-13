@@ -10,6 +10,7 @@ public record DashboardLinksResponse(
     UUID profileId,
     String displayName,
     String bio,
+    String imageUrl,
     List<LinkResponse> links
 ) {
     public static DashboardLinksResponse fromResult(DashboardLinksResult result) {
@@ -17,6 +18,7 @@ public record DashboardLinksResponse(
             result.profileId(),
             result.displayName(), 
             result.bio(), 
+            result.imageUrl(),
             result.links().stream()
                 .map(LinkResponse::fromResult)
                 .toList()

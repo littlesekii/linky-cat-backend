@@ -27,7 +27,7 @@ public class ProfileUpdateImageService implements ProfileUpdateImageUseCase {
 
     @Override
     public ProfileResult execute(UUID id, ProfileUpdateImageCommand command, UUID userId) {
-        String filename = id.toString() + ".jpg";
+        String filename = System.currentTimeMillis() + "_" + id.toString() + ".jpg";
         String contentType = command.contentType();
         byte[] bytes = command.bytes();
 
